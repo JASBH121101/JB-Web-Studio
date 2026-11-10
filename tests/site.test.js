@@ -40,7 +40,7 @@ test('mobile navigation button is explicitly associated with its navigation land
 test('all in-page links point to existing elements', () => {
   const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
   const fragments = [...html.matchAll(/\bhref="#([^"]+)"/g)].map((match) => match[1]).filter(Boolean);
-  assert.ok(fragments.length >= 8, 'expected working in-page navigation and project links');
+  assert.ok(fragments.length >= 7, 'expected working in-page navigation links');
   for (const id of fragments) assert.ok(ids.has(id), 'missing in-page target: #' + id);
 });
 
@@ -75,4 +75,26 @@ test('language control is a direct two-language switch, not a dropdown', () => {
   assert.match(js, /toggle\.addEventListener\('click'/);
   assert.match(js, /const next=window\.i18next\.language\.startsWith\('es'\)\?'en':'es'/);
   assert.match(css, /\.language-toggle[^}]*min-height:\s*44px/s);
+});
+
+
+test('SEO metadata and structured data are present', () => {
+  assert.match(html, /<title>JB Web Studio \| Web Design &amp; Development Portfolio<\/title>/);
+  assert.match(html, /<meta name="robots" content="index,follow">/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/jb-web-studio-ccj\.pages\.dev\/">/);
+  assert.match(html, /property="og:title"/);
+  assert.match(html, /name="twitter:card"/);
+  assert.match(html, /application\/ld\+json/);
+  assert.match(read('robots.txt'), /Sitemap: https:\/\/jb-web-studio-ccj\.pages\.dev\/sitemap\.xml/);
+  assert.match(read('sitemap.xml'), /<loc>https:\/\/jb-web-studio-ccj\.pages\.dev\/<\/loc>/);
+});
+
+test('portfolio distinguishes its live project from concept studies', () => {
+  assert.match(html, /class="project-card project-live"/);
+  assert.match(html, /href="https:\/\/jb-collections\.pages\.dev\//);
+  assert.match(html, /class="project-tag">LIVE PROJECT<\/span>/);
+  assert.match(html, /JB Collections is a live project/);
+  assert.match(html, /class="project-card project-featured"/);
+  assert.match(html, /class="project-card project-store"/);
+  assert.match(html, /class="project-card project-dashboard"/);
 });

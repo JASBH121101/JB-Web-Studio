@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jb-web-studio-ccj.pages.dev/sitemap.xml

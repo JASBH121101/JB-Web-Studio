@@ -35,15 +35,27 @@ const translations={
   '.visual-bottom span:first-child':'work.author.bottom',
   '.project-featured .project-meta h3':'work.author.name',
   '.project-featured .project-meta p':'work.author.description',
+  '.project-featured .project-scope':'work.author.scope',
   '.visual-commerce .commerce-caption':'work.store.caption',
-  '.project-card:nth-child(2) .project-meta h3':'work.store.name',
-  '.project-card:nth-child(2) .project-meta p':'work.store.description',
+  '.project-store .project-meta h3':'work.store.name',
+  '.project-store .project-meta p':'work.store.description',
+  '.project-store .project-scope':'work.store.scope',
   '.dash-top span:first-child':'work.dashboard.top',
   '.dash-top span:last-child':'work.dashboard.live',
   '.dash-caption':'work.dashboard.caption',
-  '.project-card:nth-child(3) .project-meta h3':'work.dashboard.name',
-  '.project-card:nth-child(3) .project-meta p':'work.dashboard.description',
-  '.project-tag':'work.concept',
+  '.project-dashboard .project-meta h3':'work.dashboard.name',
+  '.project-dashboard .project-meta p':'work.dashboard.description',
+  '.project-dashboard .project-scope':'work.dashboard.scope',
+  '.project-featured .project-tag':'work.concept',
+  '.project-store .project-tag':'work.concept',
+  '.project-dashboard .project-tag':'work.concept',
+  '.project-live .visual-top span:first-child':'work.live.top',
+  '.project-live .visual-bottom span:first-child':'work.live.footer',
+  '.project-live .project-meta h3':'work.live.name',
+  '.project-live .project-type':'work.live.type',
+  '.project-live .project-scope':'work.live.scope',
+  '.project-live .project-tag':'work.live.label',
+  '.project-live .project-link':'work.live.link',
   '.work-note':'work.note',
   '.services .eyebrow':'services.eyebrow',
   '.services h2':'services.title',
@@ -99,14 +111,28 @@ function applyTranslations(){
     const nodes=document.querySelectorAll(selector);
     nodes.forEach(node=>setSafeTranslation(node,window.i18next.t(key)));
   }
-  document.documentElement.lang=window.i18next.language;
-  document.title=window.i18next.language==='es'
-    ? 'JB Web Studio — Diseño y desarrollo web'
-    : 'JB Web Studio — Digital experiences, thoughtfully built';
-  const meta=document.querySelector('meta[name="description"]');
-  if(meta)meta.content=window.i18next.language==='es'
-    ? 'JB Web Studio — Diseño web, desarrollo y experiencias digitales con propósito.'
-    : 'JB Web Studio — websites, digital experiences and web projects crafted with purpose.';
+  const isSpanish=window.i18next.language.startsWith('es');
+  const pageMeta=isSpanish ? {
+    title:'JB Web Studio | Portafolio de diseño y desarrollo web',
+    description:'Portafolio de diseño y desarrollo web con un catálogo digital en vivo y conceptos de interfaz creados por JB Web Studio, desde Nicaragua.',
+    locale:'es_NI'
+  } : {
+    title:'JB Web Studio | Web Design & Development Portfolio',
+    description:'Web design and development portfolio featuring a live digital catalog and selected UI concepts by JB Web Studio, based in Nicaragua.',
+    locale:'en_US'
+  };
+  document.documentElement.lang=isSpanish?'es':'en';
+  document.title=pageMeta.title;
+  const updateMeta=(selector,value)=>{
+    const element=document.querySelector(selector);
+    if(element)element.setAttribute('content',value);
+  };
+  updateMeta('meta[name="description"]',pageMeta.description);
+  updateMeta('meta[property="og:title"]',pageMeta.title);
+  updateMeta('meta[property="og:description"]',pageMeta.description);
+  updateMeta('meta[property="og:locale"]',pageMeta.locale);
+  updateMeta('meta[name="twitter:title"]',pageMeta.title);
+  updateMeta('meta[name="twitter:description"]',pageMeta.description);
 }
 async function setupLanguages(){
   const toggle=document.querySelector('#language-toggle');

@@ -29,7 +29,7 @@
   "work.dashboard.live": "● LIVE CONCEPT",
   "work.dashboard.caption": "A clearer view of your business.",
   "work.concept": "CONCEPT",
-  "work.note": "These are visual directions and sample concepts, not presented as completed client projects. More real work will be added as it is ready to showcase.",
+  "work.note": "JB Collections is a live project. The other three pieces are concept studies, clearly labeled as such.",
   "services.eyebrow": "WHAT I CAN HELP WITH",
   "services.title": "Good work, from <em>every angle.</em>",
   "services.design.name": "Website design",
@@ -46,5 +46,15 @@
   "contact.title": "Let's make<br><em>it happen.</em>",
   "contact.description": "Tell me a little about what you're building. Let's see what we can create together.",
   "contact.button": "Get in touch <span>↗</span>",
-  "footer.tagline": "INDEPENDENT WEB DESIGN &amp; DEVELOPMENT"
+  "footer.tagline": "INDEPENDENT WEB DESIGN &amp; DEVELOPMENT",
+  "work.live.top": "JB COLLECTIONS",
+  "work.live.footer": "TECHNOLOGY · PERFUMERY",
+  "work.live.name": "JB Collections",
+  "work.live.type": "Live digital catalog · Technology & perfumery",
+  "work.live.scope": "A unified catalog bringing JB TECH and JB Parfums together, with dedicated sections for each category.",
+  "work.live.label": "LIVE PROJECT",
+  "work.live.link": "View live catalog <span aria-hidden=\"true\">↗</span>",
+  "work.author.scope": "A magazine-style layout with typographic hierarchy and a clear, distraction-free reading flow.",
+  "work.store.scope": "A product-first composition that organizes a collection and gives key product details room to breathe.",
+  "work.dashboard.scope": "A dashboard direction for surfacing KPIs, trends and operational information at a glance."
 }

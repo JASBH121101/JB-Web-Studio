@@ -29,7 +29,7 @@
   "work.dashboard.live": "● CONCEPTO EN VIVO",
   "work.dashboard.caption": "Una visión más clara de tu negocio.",
   "work.concept": "CONCEPTO",
-  "work.note": "Estas piezas son direcciones visuales y conceptos de muestra; no se presentan como proyectos entregados a clientes. Añadiremos trabajos reales cuando estén listos para mostrarse.",
+  "work.note": "JB Collections es un proyecto en vivo. Los otros tres trabajos son estudios conceptuales, identificados claramente como tales.",
   "services.eyebrow": "EN QUÉ PUEDO AYUDARTE",
   "services.title": "Buen trabajo, <em>desde todos los ángulos.</em>",
   "services.design.name": "Diseño web",
@@ -46,5 +46,15 @@
   "contact.title": "Hagámoslo<br><em>realidad.</em>",
   "contact.description": "Cuéntame un poco sobre lo que quieres crear. Veamos qué podemos construir juntos.",
   "contact.button": "Contactarme <span>↗</span>",
-  "footer.tagline": "DISEÑO Y DESARROLLO WEB INDEPENDIENTE"
+  "footer.tagline": "DISEÑO Y DESARROLLO WEB INDEPENDIENTE",
+  "work.live.top": "JB COLLECTIONS",
+  "work.live.footer": "TECNOLOGÍA · PERFUMERÍA",
+  "work.live.name": "JB Collections",
+  "work.live.type": "Catálogo digital en vivo · Tecnología y perfumería",
+  "work.live.scope": "Un catálogo unificado que reúne JB TECH y JB Parfums, con secciones dedicadas para cada categoría.",
+  "work.live.label": "PROYECTO EN VIVO",
+  "work.live.link": "Ver catálogo en vivo <span aria-hidden=\"true\">↗</span>",
+  "work.author.scope": "Una composición editorial con jerarquía tipográfica y una lectura clara, sin distracciones.",
+  "work.store.scope": "Una propuesta centrada en el producto, pensada para organizar colecciones y destacar sus detalles.",
+  "work.dashboard.scope": "Una propuesta de panel para visualizar indicadores, tendencias e información operativa de un vistazo."
 }
