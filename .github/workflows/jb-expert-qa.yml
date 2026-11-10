@@ -48,8 +48,9 @@ jobs:
         id: static_audit
         continue-on-error: true
         run: |
-          mkdir -p reports
-          node jb-expert-qa/src/project-cli.js "$GITHUB_WORKSPACE" \
+          mkdir -p reports /tmp/jb-web-studio-source
+          tar --exclude='./jb-expert-qa' --exclude='./.git' -cf - . | tar -xf - -C /tmp/jb-web-studio-source
+          node jb-expert-qa/src/project-cli.js /tmp/jb-web-studio-source \
             --config="$GITHUB_WORKSPACE/jb-expert-qa/config/project-audit.config.json" \
             --format=json \
             --output="$GITHUB_WORKSPACE/reports/jb-expert-qa-static.json"
