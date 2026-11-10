@@ -28,13 +28,18 @@ test('mobile menu, language switching, and desktop navigation targets work', asy
     assert.equal(await menuButton.getAttribute('aria-expanded'), 'false');
     assert.equal(await page.locator('#primary-navigation').isVisible(), false);
 
-    const language = page.locator('#language-select');
-    await language.selectOption('es');
+    const languageToggle = page.locator('#language-toggle');
+    assert.equal(await languageToggle.innerText(), 'EN');
+    assert.equal(await languageToggle.getAttribute('aria-label'), 'Switch language to Spanish');
+    await languageToggle.click();
     await page.waitForFunction(() => document.documentElement.lang === 'es');
+    assert.equal(await languageToggle.innerText(), 'ES');
+    assert.equal(await languageToggle.getAttribute('aria-label'), 'Cambiar idioma a inglés');
     assert.match(await page.locator('.hero h1').innerText(), /Las ideas merecen/);
 
-    await language.selectOption('en');
+    await languageToggle.click();
     await page.waitForFunction(() => document.documentElement.lang === 'en');
+    assert.equal(await languageToggle.innerText(), 'EN');
     assert.match(await page.locator('.hero h1').innerText(), /Ideas deserve/);
 
     await page.setViewportSize({ width: 1365, height: 900 });
