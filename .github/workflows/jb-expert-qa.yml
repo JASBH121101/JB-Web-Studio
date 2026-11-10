@@ -2,6 +2,16 @@ name: JB Expert QA — Web Studio
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.html"
+      - "styles.css"
+      - "script.js"
+      - "locales/**"
+      - "tests/**"
+      - ".github/workflows/jb-expert-qa.yml"
 
 permissions:
   contents: read
