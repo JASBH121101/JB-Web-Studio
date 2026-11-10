@@ -109,8 +109,16 @@ function applyTranslations(){
     : 'JB Web Studio — websites, digital experiences and web projects crafted with purpose.';
 }
 async function setupLanguages(){
-  const selector=document.querySelector('#language-select');
-  if(!window.i18next||!selector)return;
+  const toggle=document.querySelector('#language-toggle');
+  if(!window.i18next||!toggle)return;
+
+  const updateLanguageToggle=()=>{
+    const current=window.i18next.language.startsWith('es')?'es':'en';
+    const next=current==='es'?'en':'es';
+    toggle.textContent=current.toUpperCase();
+    toggle.setAttribute('aria-label',next==='es'?'Switch language to Spanish':'Cambiar idioma a inglés');
+    toggle.setAttribute('aria-pressed',String(current==='es'));
+  };
   try{
     const [en,es]=await Promise.all([
       fetch('./locales/en/translation.json').then(r=>{if(!r.ok)throw Error('English translations unavailable');return r.json();}),
@@ -125,16 +133,19 @@ async function setupLanguages(){
       resources:{en:{translation:en},es:{translation:es}},
       interpolation:{escapeValue:false}
     });
-    selector.value=window.i18next.language.startsWith('es')?'es':'en';
     applyTranslations();
-    selector.addEventListener('change',async()=>{
-      await window.i18next.changeLanguage(selector.value);
-      localStorage.setItem('jbws-language',selector.value);
+    updateLanguageToggle();
+    toggle.addEventListener('click',async()=>{
+      const next=window.i18next.language.startsWith('es')?'en':'es';
+      await window.i18next.changeLanguage(next);
+      localStorage.setItem('jbws-language',next);
       applyTranslations();
+      updateLanguageToggle();
     });
   }catch(error){
     console.error('Language setup failed; showing the default English content.',error);
-    selector.value='en';
+    toggle.textContent='EN';
+    toggle.setAttribute('aria-label','Cambiar idioma a inglés');
   }
 }
 setupLanguages();
