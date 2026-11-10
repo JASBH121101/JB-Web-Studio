@@ -1,0 +1,90 @@
+name: JB Expert QA — Web Studio
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jb-web-studio-expert-qa
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: Static and live website audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout JB Web Studio
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Checkout private JB Expert QA engine
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: JASBH121101/JB-Expert-QA
+          ref: main
+          token: ${{ secrets.JBQA_REPO_READ_TOKEN }}
+          path: jb-expert-qa
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install JB Expert QA dependencies
+        working-directory: jb-expert-qa
+        run: npm install --ignore-scripts --no-audit --no-fund
+
+      - name: Install Chromium
+        working-directory: jb-expert-qa
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Run static project audit
+        id: static_audit
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          node jb-expert-qa/src/project-cli.js "$GITHUB_WORKSPACE" \
+            --config="$GITHUB_WORKSPACE/jb-expert-qa/config/project-audit.config.json" \
+            --format=json \
+            --output="$GITHUB_WORKSPACE/reports/jb-expert-qa-static.json"
+
+      - name: Run live responsive and accessibility audit
+        id: live_audit
+        continue-on-error: true
+        working-directory: jb-expert-qa
+        env:
+          TARGET_URL: https://jb-web-studio-ccj.pages.dev
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/reports/screenshots"
+          node src/cli.js "$TARGET_URL" \
+            --matrix \
+            --screenshots="$GITHUB_WORKSPACE/reports/screenshots" \
+            --format=json \
+            --output="$GITHUB_WORKSPACE/reports/jb-expert-qa-live.json"
+
+      - name: Upload JB Expert QA reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: jb-web-studio-expert-qa-report
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Enforce audit results
+        if: always()
+        env:
+          STATIC_OUTCOME: ${{ steps.static_audit.outcome }}
+          LIVE_OUTCOME: ${{ steps.live_audit.outcome }}
+        run: |
+          if [[ "$STATIC_OUTCOME" != "success" || "$LIVE_OUTCOME" != "success" ]]; then
+            echo "JB Expert QA did not pass. Download the report artifact and review the findings."
+            exit 1
+          fi
+          echo "Both JB Expert QA audit stages completed successfully."
