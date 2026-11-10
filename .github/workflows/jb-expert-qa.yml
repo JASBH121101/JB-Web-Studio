@@ -48,6 +48,8 @@ jobs:
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Run browser interaction smoke tests
+        id: browser_smoke
+        continue-on-error: true
         env:
           NODE_PATH: ${{ github.workspace }}/jb-expert-qa/node_modules
           TARGET_URL: https://jb-web-studio-ccj.pages.dev
@@ -92,8 +94,9 @@ jobs:
         env:
           STATIC_OUTCOME: ${{ steps.static_audit.outcome }}
           LIVE_OUTCOME: ${{ steps.live_audit.outcome }}
+          BROWSER_OUTCOME: ${{ steps.browser_smoke.outcome }}
         run: |
-          if [[ "$STATIC_OUTCOME" != "success" || "$LIVE_OUTCOME" != "success" ]]; then
+          if [[ "$STATIC_OUTCOME" != "success" || "$LIVE_OUTCOME" != "success" || "$BROWSER_OUTCOME" != "success" ]]; then
             echo "JB Expert QA did not pass. Download the report artifact and review the findings."
             exit 1
           fi
