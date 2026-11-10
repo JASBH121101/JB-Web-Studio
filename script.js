@@ -80,10 +80,8 @@ function appendSafeTranslationNode(parent,node){
 
   const element=document.createElement(node.tagName.toLowerCase());
   if(node.tagName==='SPAN'){
-    const allowedClasses=(node.getAttribute('class')||'')
-      .split(/\\s+/)
-      .filter(className=>safeTranslationClasses.has(className));
-    if(allowedClasses.length)element.classList.add(...allowedClasses);
+    const className=(node.getAttribute('class')||'').trim();
+    if(safeTranslationClasses.has(className))element.classList.add(className);
   }
   node.childNodes.forEach(child=>appendSafeTranslationNode(element,child));
   parent.appendChild(element);
