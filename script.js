@@ -63,10 +63,43 @@ const translations={
   '.contact .button':'contact.button',
   'footer>span:nth-child(2)':'footer.tagline'
 };
+const safeTranslationTags=new Set(['BR','EM','I','SPAN']);
+const safeTranslationClasses=new Set(['pulse','accent']);
+
+function appendSafeTranslationNode(parent,node){
+  if(node.nodeType===Node.TEXT_NODE){
+    parent.appendChild(document.createTextNode(node.nodeValue||''));
+    return;
+  }
+  if(node.nodeType!==Node.ELEMENT_NODE)return;
+
+  if(!safeTranslationTags.has(node.tagName)){
+    node.childNodes.forEach(child=>appendSafeTranslationNode(parent,child));
+    return;
+  }
+
+  const element=document.createElement(node.tagName.toLowerCase());
+  if(node.tagName==='SPAN'){
+    const allowedClasses=(node.getAttribute('class')||'')
+      .split(/\\s+/)
+      .filter(className=>safeTranslationClasses.has(className));
+    if(allowedClasses.length)element.classList.add(...allowedClasses);
+  }
+  node.childNodes.forEach(child=>appendSafeTranslationNode(element,child));
+  parent.appendChild(element);
+}
+
+function setSafeTranslation(target,value){
+  const parsed=new DOMParser().parseFromString(String(value),'text/html');
+  const fragment=document.createDocumentFragment();
+  parsed.body.childNodes.forEach(node=>appendSafeTranslationNode(fragment,node));
+  target.replaceChildren(fragment);
+}
+
 function applyTranslations(){
   for(const [selector,key] of Object.entries(translations)){
     const nodes=document.querySelectorAll(selector);
-    nodes.forEach(node=>{node.innerHTML=window.i18next.t(key);});
+    nodes.forEach(node=>setSafeTranslation(node,window.i18next.t(key)));
   }
   document.documentElement.lang=window.i18next.language;
   document.title=window.i18next.language==='es'
