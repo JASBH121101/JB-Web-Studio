@@ -68,3 +68,15 @@ select:focus-visible {
 
 /* Keep dashboard supporting copy readable at every viewport */
 .dash-caption { font-size: 12px; }
+
+
+/* Desktop and mobile navigation links retain a comfortable click target. */
+.nav > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.nav > .nav-contact {
+  min-height: 44px;
+}
