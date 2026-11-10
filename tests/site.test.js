@@ -68,3 +68,11 @@ test('localized markup is rendered through the allowlisted translation renderer'
 test('contact action uses the configured email address', () => {
   assert.match(html, /href="mailto:jaredblancoh19@gmail\.com\?subject=Project%20inquiry"/);
 });
+
+test('language control is a direct two-language switch, not a dropdown', () => {
+  assert.match(html, /<button[^>]*id="language-toggle"[^>]*aria-label="Switch language to Spanish"/);
+  assert.doesNotMatch(html, /<select[^>]*id="language-select"/);
+  assert.match(js, /toggle\.addEventListener\('click'/);
+  assert.match(js, /const next=window\.i18next\.language\.startsWith\('es'\)\?'en':'es'/);
+  assert.match(css, /\.language-toggle[^}]*min-height:\s*44px/s);
+});
