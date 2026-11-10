@@ -50,6 +50,7 @@ const translations={
   '.project-store .project-tag':'work.concept',
   '.project-dashboard .project-tag':'work.concept',
   '.project-live .visual-top span:first-child':'work.live.top',
+  '.project-live .visual-top span:last-child':'work.live.label',
   '.project-live .visual-bottom span:first-child':'work.live.footer',
   '.project-live .project-meta h3':'work.live.name',
   '.project-live .project-type':'work.live.type',
@@ -142,7 +143,7 @@ async function setupLanguages(){
     const current=window.i18next.language.startsWith('es')?'es':'en';
     const next=current==='es'?'en':'es';
     toggle.textContent=current.toUpperCase();
-    toggle.setAttribute('aria-label',next==='es'?'Switch language to Spanish':'Cambiar idioma a inglés');
+    toggle.setAttribute('aria-label',current.toUpperCase()+(next==='es'?' — Switch language to Spanish':' — Cambiar idioma a inglés'));
     toggle.setAttribute('aria-pressed',String(current==='es'));
   };
   try{
@@ -171,7 +172,7 @@ async function setupLanguages(){
   }catch(error){
     console.error('Language setup failed; showing the default English content.',error);
     toggle.textContent='EN';
-    toggle.setAttribute('aria-label','Cambiar idioma a inglés');
+    toggle.setAttribute('aria-label','EN — Switch language to Spanish');
   }
 }
 setupLanguages();

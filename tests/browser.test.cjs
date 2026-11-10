@@ -30,11 +30,11 @@ test('mobile menu, language switching, and desktop navigation targets work', asy
 
     const languageToggle = page.locator('#language-toggle');
     assert.equal(await languageToggle.innerText(), 'EN');
-    assert.equal(await languageToggle.getAttribute('aria-label'), 'Switch language to Spanish');
+    assert.equal(await languageToggle.getAttribute('aria-label'), 'EN — Switch language to Spanish');
     await languageToggle.click();
     await page.waitForFunction(() => document.documentElement.lang === 'es');
     assert.equal(await languageToggle.innerText(), 'ES');
-    assert.equal(await languageToggle.getAttribute('aria-label'), 'Cambiar idioma a inglés');
+    assert.equal(await languageToggle.getAttribute('aria-label'), 'ES — Cambiar idioma a inglés');
     assert.match(await page.locator('.hero h1').innerText(), /Las ideas merecen/);
 
     await languageToggle.click();
@@ -66,6 +66,8 @@ test('live portfolio project link and bilingual SEO metadata are available', asy
     await page.waitForFunction(() => Boolean(window.i18next && window.i18next.isInitialized));
 
     const liveLink = page.locator('.project-live .project-link');
+    const visualLink = page.getByRole('link', { name: /JB COLLECTIONS.*JB TECH.*JB PARFUMS/i });
+    assert.equal(await visualLink.getAttribute('href'), 'https://jb-collections.pages.dev/');
     assert.equal(await liveLink.getAttribute('href'), 'https://jb-collections.pages.dev/');
     assert.equal(await liveLink.getAttribute('target'), '_blank');
     assert.match(await page.title(), /Web Design & Development Portfolio/);

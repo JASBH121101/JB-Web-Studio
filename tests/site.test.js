@@ -98,3 +98,12 @@ test('portfolio distinguishes its live project from concept studies', () => {
   assert.match(html, /class="project-card project-store"/);
   assert.match(html, /class="project-card project-dashboard"/);
 });
+
+test('live project text labels meet the 12px minimum', () => {
+  assert.match(css, /\.collections-categories span \{ font-size: 12px; \}/);
+});
+
+test('language switch accessible name includes the visible language text', () => {
+  assert.match(js, /current\.toUpperCase\(\)\+\(next==='es'/);
+  assert.doesNotMatch(html, /aria-label="Open JB Collections live digital catalog"/);
+});

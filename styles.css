@@ -184,3 +184,6 @@ select:focus-visible {
   .collections-monogram { width: 58px; height: 58px; font-size: 23px; }
   .collections-lockup { gap: 12px; }
 }
+
+/* Keep project category labels readable and consistent with the QA minimum. */
+.collections-categories span { font-size: 12px; }
